@@ -30,11 +30,12 @@ export const register = async (req,res)=>{
         //set token in httpOnly cookie for security
         res.cookie('token',token,{httpOnly:true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'noone' : 'strict',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
         maxAge: 7*24*60*60*1000});  // 7 days expire time for thia cookie
         return res.json({success:true,message:"Registration successful"});
 
       
+        //sending welcome email to the user after successful registration
         
 
         
@@ -68,7 +69,7 @@ export const login = async (req,res)=>
         const isPasswordCorrect = await bcrypt.compare(password,existingUser.password);
         // if password does not match return invalid credentials message
         if(!isPasswordCorrect){
-            return res.json({success:false,message:"Invalid credentials"})
+            return res.json({success:false,message:"Invalid password"})
 
         }
         // generate jwt token for authenticated user
@@ -76,7 +77,7 @@ export const login = async (req,res)=>
         //set token in httpOnly cookie for security
         res.cookie('token',token,{httpOnly:true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'noone' : 'strict',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
         maxAge: 7*24*60*60*1000});  // 7 days expire time for thia cookie
 
         return res.json({success:true,message:"Login successful"});
